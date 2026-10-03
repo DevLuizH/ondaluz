@@ -1,6 +1,7 @@
 node_modules/
 dist/
 ondaluz-pack/
+enunciado.pdf
 tmp_*
 *.duckdb
 *.duckdb.wal
