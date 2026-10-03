@@ -1,0 +1,46 @@
+services:
+  db:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_USER: ondaluz
+      POSTGRES_PASSWORD: ondaluz
+      POSTGRES_DB: ondaluz
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ondaluz -d ondaluz"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  bootstrap:
+    build: ./apps/replay
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://ondaluz:ondaluz@db:5432/ondaluz
+      DATA_DIR: /data
+    volumes:
+      - ./ondaluz-pack/data:/data:ro
+
+  api:
+    build: ./apps/api
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgres://ondaluz:ondaluz@db:5432/ondaluz
+      PORT: "3001"
+    ports:
+      - "3001:3001"
+
+  web:
+    build: ./apps/web
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  dbdata:

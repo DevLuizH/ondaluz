@@ -1,0 +1,8 @@
+node_modules/
+dist/
+ondaluz-pack/
+tmp_*
+*.duckdb
+*.duckdb.wal
+.env
+.DS_Store

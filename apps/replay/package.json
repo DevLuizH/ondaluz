@@ -1,0 +1,18 @@
+{
+  "name": "ondaluz-replay",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "pg": "^8.16.3",
+    "pg-copy-streams": "^6.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.17.0",
+    "@types/pg": "^8.15.5",
+    "typescript": "^5.9.2"
+  }
+}
